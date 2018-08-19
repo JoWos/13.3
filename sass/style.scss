@@ -1,0 +1,23 @@
+body {
+  text-align: center;
+  padding: 10px;
+}
+
+div button {
+  
+}
+
+button {
+  min-width: 100px;
+  margin: 10px;
+  font-size: 18px;
+}
+
+#output, 
+#result {
+  margin: 20px auto;
+  width: 500px;
+  min-height: 50px;
+  line-height: 50px;
+  border: 1px solid #ccc;
+}
