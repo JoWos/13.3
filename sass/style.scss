@@ -9,6 +9,14 @@ button {
   font-size: 18px;
 }
 
+#start {
+  background: #f8b500;
+  width: 200px;
+  padding: 20px;
+  border: none;
+  box-shadow: 3px 0px 35px -3px rgba(0,0,0,0.9);
+}
+
 #output, 
 #result {
   margin: 20px auto;
@@ -26,7 +34,8 @@ button {
 	left: 0;
 	width: 100%;
 	height: 100%;
-	background: rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0.7);
+  overflow: auto;
 	
 	&.show {
 		display: block;
@@ -35,11 +44,10 @@ button {
 
 .modal {
 	display: none;
-	background: #fff;
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate3d(-50%, -50%, 0);
+  background: #fff;
+  margin: 0 auto;
+  position: relative;
+  max-width: 800px; 
   
   .content {
     font-size: 30px;
@@ -61,10 +69,11 @@ button {
 	}
   
   table {
-    margin-top: 10px;
+    margin: 10px  auto;
     padding: 14px 0 7px;
     font-size: 15px;
     border-collapse: collapse;
+    
     
     thead {
       font-weight: bold;

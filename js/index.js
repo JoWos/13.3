@@ -62,11 +62,6 @@ for(var i = 0; i < modals.length; i++){
   });
 }; 
 
-//RESET WYNIKU RUNDY
-function resetScore(){
-  result.innerHTML = 'You vs Computer';
-}
-
 // TABELA
 function myTable(){
   var tbody = document.getElementById('tbody');
@@ -86,6 +81,13 @@ function myTable(){
    }    
      table.append(tbody);
  };
+
+
+//RESET WYNIKU RUNDY
+function resetScore(){
+  result.innerHTML = 'You vs Computer';
+}
+
 
 //POKAZYWANIE WYNIKU CAŁEJ GRY
 var showGameResult = function(){
@@ -114,48 +116,67 @@ function isGameOver(){
 
 //LOSOWANIE RUCHU KOMPUTERA
 function getComputerChoice() {   
-  return ['PAPER', 'ROCK', 'SCISSORS'][Math.floor(Math.random() * 3)];
+  return ['paper', 'rock', 'scissors'][Math.floor(Math.random() * 3)];
 };
 
 //POKAZYWANIE PUNKTÓW KAŻDEGO Z GRACZY PO ZAKOŃCZONEJ RUNDZIE, NUMERU RUNDY I INFO O ILOŚCI PUNKTÓW POTRZEBNYCH DO WYGRANEJ
 function showScore() {
+  params.roundNumber++
   result.innerHTML =  'You need ' + params.maxRounds + ' points to win <br> Round number: ' + params.roundNumber + ':  <br> You ' + params.playerScore + ' : ' + params.computerScore + ' Computer';
-  }
+}
 
 
 //KTO WYGRYWA RUNDĘ
-function winner(playerChoice, computerChoice) {
-  var showWinner;
-  if (playerChoice == computerChoice) {
-    showWinner = 'It\'\s a DRAW';
-  } else if (playerChoice == 'paper' && computerChoice == 'rock') {
-    showWinner = 'YOU WON';
-    params.playerScore++;
-  } else if (playerChoice == 'rock' && computerChoice == 'scissors') {
-    showWinner ='YOU WON';
-    params.playerScore++;
-  } else if (playerChoice == 'scissors' && computerChoice == 'paper') {
-    showWinner = 'YOU WON';
-    params.playerScore++;
+function showWhoWins(whoWins, playerChoice, computerChoice) {
+  if (whoWins == 'computer') {
+    output.innerHTML = 'You lost: you played ' + playerChoice + ', computer played ' + computerChoice;
+    params.computerScore++
+  } else if (whoWins == 'player') {
+    output.innerHTML = 'You won: you played ' + playerChoice + ', computer played ' + computerChoice;;
+    params.playerScore++
   } else {
-    showWinner = 'YOU LOST';
-    params.computerScore++;
+    output.innerHTML = 'It\'\s a draw';
   }
-  showScore()
-  if(!isGameOver()) {
-
-  output.innerHTML =  showWinner + ': you played ' + playerChoice + ', computer played ' + computerChoice;
-  } 
-}
-
+   showScore();
+    
+   if(isGameOver()) {
+      myTable();
+    }
+  }
 
 
 //PLAYER MOVE = losowanie + wynik
 function playerMove(playerChoice) {
-  var computerChoice = getComputerChoice()
-  winner(playerChoice, computerChoice);
-  params.roundNumber++;
-};
+  var computerChoice = getComputerChoice();
+
+  var whoWins;
+if (playerChoice == computerChoice) {
+    whoWins = 'nobody wins';
+  } else if (playerChoice == 'paper' && computerChoice == 'rock') {
+    whoWins = 'player';
+
+  } else if (playerChoice == 'rock' && computerChoice == 'scissors') {
+    whoWins ='player';
+    
+  } else if (playerChoice == 'scissors' && computerChoice == 'paper') {
+    whoWins = 'player';
+
+  } else {
+    whoWins = 'computer';
+  }
+
+  showWhoWins(whoWins, playerChoice, computerChoice);
+
+  params.progress.push(
+    {
+    round: params.roundNumber, 
+    player: playerChoice,
+    computer: computerChoice,
+    result: whoWins, 
+    'player score': params.playerScore,   
+    'computer score': params.computerScore,
+    })
+}
 
 
 //BUTTONS
@@ -170,18 +191,17 @@ for(var i = 0; i < buttons.length; i++) {
 newGame.addEventListener('click', function() {
   params.maxRounds = window.prompt("How many rounds to win?");
   
-    if(isNaN(params.maxRounds) || params.maxRounds == null || params.maxRounds == '') {
+   if(isNaN(params.maxRounds) || params.maxRounds == null || params.maxRounds == '') {
     output.innerHTML = "Incorrect number";
   } else {
     resetScore();
-    params.roundNumber=1;
-    params.playerScore=0;
-    params.computerScore=0;
+    params.roundNumber = 0;
+    params.playerScore = 0;
+    params.computerScore = 0;
     disableButtons(false)
    
     output.innerHTML = 'You win the entire game if you win ' + params.maxRounds + ' rounds';
-
-}
+  }
 });
 
 disableButtons(true);
