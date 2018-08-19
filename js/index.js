@@ -4,12 +4,12 @@
 var output = document.getElementById('output');
 var result = document.getElementById('result');
 
-
 //BUTTONS
 var paper = document.getElementById('paper');
 var rock = document.getElementById('rock');
 var scissors = document.getElementById('scissors');
-var newGame = document.getElementById('start')
+var newGame = document.getElementById('start');
+var buttons = document.querySelectorAll('.player-move');
 
 //VARIABLES
 var params = {
@@ -23,11 +23,44 @@ var params = {
 // BLOKOWANIE PRZYCISKÓW
 function disableButtons (isDisabled) {
   paper.disabled = isDisabled;
-  rock.disabled = isDisabled;
+  rock.disabled = isDisabled; 
   scissors.disabled = isDisabled;
 }
 
+// MODALE
+var showModal = function(event){
+  event.preventDefault();
+  document.querySelector('#modal-overlay').classList.add('show');	
 
+  var modals = document.querySelectorAll('.modal');
+  for (var i = 0; i < modals.length; i++) {
+  modals[i].classList.remove('show');
+  }
+ 
+  document.querySelector('#modal-one').classList.add('show');
+};
+
+
+var hideModal = function(event){
+  event.preventDefault();
+  document.querySelector('#modal-overlay').classList.remove('show');
+};
+
+var closeButtons = document.querySelectorAll('.modal .close');
+
+for(var i = 0; i < closeButtons.length; i++){
+  closeButtons[i].addEventListener('click', hideModal);
+}
+
+document.querySelector('#modal-overlay').addEventListener('click', hideModal);
+
+var modals = document.querySelectorAll('.modal');
+
+for(var i = 0; i < modals.length; i++){
+  modals[i].addEventListener('click', function(event){
+    event.stopPropagation();
+  });
+}; 
 
 //RESET WYNIKU RUNDY
 function resetScore(){
@@ -39,8 +72,10 @@ var showGameResult = function(){
   var info = document.getElementById('info');
    if(params.playerScore == params.maxRounds) {
   info.innerHTML = 'Game over! <br> YOU WON the entire game!'
+    showModal(event);
  } else if (params.computerScore == params.maxRounds) {
-  info.innerHTML = 'Game over! <br> you lost the entire game!'
+  info.innerHTML = 'Game over! <br> You lost the entire game!'
+    showModal(event);
  }
 }
 
@@ -92,6 +127,8 @@ function winner(playerChoice, computerChoice) {
   output.innerHTML =  showWinner + ': you played ' + playerChoice + ', computer played ' + computerChoice;
   } 
 }
+
+
 
 //PLAYER MOVE = losowanie + wynik
 function playerMove(playerChoice) {
