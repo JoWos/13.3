@@ -33,6 +33,9 @@
     "rimraf": "^2.6.2"
   },
   "dependencies": {
-    "mkdirp": "^0.5.1"
+    "lodash": "^4.17.10",
+    "lodash.update": "^4.10.2",
+    "mkdirp": "^0.5.1",
+    "superagent": "^3.8.3"
   }
 }
