@@ -67,6 +67,26 @@ function resetScore(){
   result.innerHTML = 'You vs Computer';
 }
 
+// TABELA
+function myTable(){
+  var tbody = document.getElementById('tbody');
+ 
+   for(var i = 0; i < params.progress.length; i++) {
+     var tr = document.createElement('tr');
+ 
+     for(var key in params.progress[i]){
+       var td = document.createElement('td');
+       var text = document.createTextNode(params.progress[i][key]);
+       
+       td.appendChild(text);
+       tr.appendChild(td);
+     }
+ 
+     tbody.appendChild(tr);
+   }    
+     table.append(tbody);
+ };
+
 //POKAZYWANIE WYNIKU CAŁEJ GRY
 var showGameResult = function(){
   var info = document.getElementById('info');
