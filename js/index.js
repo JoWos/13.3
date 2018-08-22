@@ -17,7 +17,7 @@ var params = {
   computerScore: 0,
   roundNumber: 0,
   maxRounds: 0,
-  progress: [],
+  progress: []
 };
 
 // BLOKOWANIE PRZYCISKÓW
@@ -65,7 +65,8 @@ for(var i = 0; i < modals.length; i++){
 // TABELA
 function myTable(){
   var tbody = document.getElementById('tbody');
- 
+  tbody.innerHTML = '';
+
    for(var i = 0; i < params.progress.length; i++) {
      var tr = document.createElement('tr');
  
@@ -79,24 +80,24 @@ function myTable(){
  
      tbody.appendChild(tr);
    }    
-     table.append(tbody);
  };
 
 
 //RESET WYNIKU RUNDY
 function resetScore(){
   result.innerHTML = 'You vs Computer';
+  params.progress = [];
 }
 
 
-//POKAZYWANIE WYNIKU CAŁEJ GRY
+//POKAZYWANIE WYNIKU CAŁEJ GRY w MODALU
 var showGameResult = function(){
   var info = document.getElementById('info');
    if(params.playerScore == params.maxRounds) {
-  info.innerHTML = 'Game over! <br> YOU WON the entire game!'
+    info.innerHTML = 'Game over! <br> YOU WON the entire game!'
     showModal(event);
  } else if (params.computerScore == params.maxRounds) {
-  info.innerHTML = 'Game over! <br> You lost the entire game!'
+    info.innerHTML = 'Game over! <br> You lost the entire game!'
     showModal(event);
  }
 }
@@ -137,12 +138,9 @@ function showWhoWins(whoWins, playerChoice, computerChoice) {
   } else {
     output.innerHTML = 'It\'\s a draw';
   }
-   showScore();
-    
-   if(isGameOver()) {
-      myTable();
-    }
-  }
+   
+  showScore();
+}
 
 
 //PLAYER MOVE = losowanie + wynik
@@ -167,15 +165,19 @@ if (playerChoice == computerChoice) {
 
   showWhoWins(whoWins, playerChoice, computerChoice);
 
-  params.progress.push(
-    {
+  params.progress.push({
     round: params.roundNumber, 
     player: playerChoice,
     computer: computerChoice,
     result: whoWins, 
-    'player score': params.playerScore,   
-    'computer score': params.computerScore,
+    playerScore: params.playerScore,   
+    computerScore: params.computerScore
     })
+
+    if(isGameOver()) {
+      myTable();
+      output.innerHTML = 'Let\'\s play again!';
+    }
 }
 
 
@@ -185,7 +187,6 @@ for(var i = 0; i < buttons.length; i++) {
     playerMove(this.getAttribute('data-move'));
   })
 } 
-
 
 //INICJACJA NOWEJ GRY
 newGame.addEventListener('click', function() {
